@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  proxy:
+    container_name: "nginx-proxy"
+    image: "nginx:latest"
+    networks:
+      - backend
+      - proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx:/etc/nginx/
+
+  web:
+    container_name: "web-app"
+    networks:
+      - proxy
+    build: ${WEB_BUILD_URL}
+
+  app-master:
+    container_name: "master-app"
+    build: ${APP_MASTER_BUILD_URL}
+    networks:
+      - backend
+
+  auth-app:
+    container_name: "auth-app"
+    build: ${APP_AUTH_BUILD_URL}
+    networks:
+      - backend
+
+  messages-app:
+    container_name: "messages-app"
+    build: ${APP_MESSAGES_BUILD_URL}
+
+  database:
+    container_name: "mongo"
+    image: "mongo:latest"
+    networks:
+      - backend
+
+networks:
+  backend:
+  proxy:
