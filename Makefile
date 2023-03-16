@@ -1,19 +1,24 @@
-build-dev:
-	docker-compose \
-		--env-file ./envs/dev.env\
-		build
+clone-all:
+	git clone --recurse-submodules git@github.com:redprods/redprod-chat-web.git ./web
+	git clone --recurse-submodules git@github.com:redprods/redprod-chat-auth.git ./auth
+	git clone --recurse-submodules git@github.com:redprods/redprod-chat-messenger.git ./messenger
 
-build-production:
-	docker-compose \
-		--env-file ./envs/production.env\
-		build
-	
-dev-up:
+pull-all:
+	cd web/
+	git pull
+
+	cd ../auth
+	git pull
+
+	cd ../messenger
+	git pull
+
+up:
 	docker-compose \
 		--env-file ./envs/dev.env \
 		up -d
 
-production-up:
+build:
 	docker-compose \
-		--env-file ./envs/production.env \
-		up -d
+		--env-file ./envs/dev.env \
+		build

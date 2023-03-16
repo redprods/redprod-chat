@@ -19,21 +19,22 @@ services:
       - proxy
     build: ${WEB_BUILD_URL}
 
-  app-master:
-    container_name: "master-app"
-    build: ${APP_MASTER_BUILD_URL}
-    networks:
-      - backend
-
   auth-app:
     container_name: "auth-app"
     build: ${APP_AUTH_BUILD_URL}
+    depends_on:
+      - database
     networks:
       - backend
 
-  messages-app:
-    container_name: "messages-app"
-    build: ${APP_MESSAGES_BUILD_URL}
+  messenger-app:
+    container_name: "messenger-app"
+    build: ${APP_MESSENGER_BUILD_URL}
+    depends_on:
+      - auth-app
+      - database
+    networks:
+      - backend
 
   database:
     container_name: "mongo"
