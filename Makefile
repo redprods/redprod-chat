@@ -7,10 +7,10 @@ pull-all:
 	cd web/
 	git pull
 
-	cd ../auth
+	cd auth/
 	git pull
 
-	cd ../messenger
+	cd auth/
 	git pull
 
 up:
