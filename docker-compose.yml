@@ -33,6 +33,7 @@ services:
     depends_on:
       - auth-app
       - database
+      - notification
     networks:
       - backend
 
@@ -40,9 +41,7 @@ services:
     container_name: "notify-app"
     build: ${NOTIFY_BUILD_URL}
     depends_on:
-      - auth-app
       - database
-      - messenger-app
     networks:
       - backend
 
@@ -51,7 +50,10 @@ services:
     image: "mongo:latest"
     networks:
       - backend
-
+    volumes:
+      - type: bind
+        source: ./data
+        target: /data/db
 
 networks:
   backend:
